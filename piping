@@ -1,7 +1,10 @@
 # Week5_ANA505
 Ibai Vidaurreta
 
-
+WorldCup<-read.csv("WordCup.csv")
+library(dplyr)
+mysample<-sample_n(WorldCup, size=15, replace = FALSE, weight = NULL, .env=NULL)
+write.csv(mysample, "mysample.csv")
 
 
 #TASK: revise this code chunk using piping
