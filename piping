@@ -6,10 +6,19 @@ library(dplyr)
 mysample<-sample_n(WorldCup, size=15, replace = FALSE, weight = NULL, .env=NULL)
 write.csv(mysample, "mysample.csv")
 
+#TASK: piping
+> piping<-mysample %>%
++ rename(SoccerPowerIndex=spi1) %>%
++ subset(SoccerPowerIndex>60) %>%
++ dim()%>%
++ print()
+[1] 15 20
+
 
 #TASK: revise this code chunk using piping
 mysample2<-mysample
 > arrange(mysample2, date)
+
          date league_id         league        team1       team2  spi1  spi2  prob1  prob2 probtie
 1  2022-11-21      1908 FIFA World Cup      Senegal Netherlands 73.84 86.01 0.2235 0.5053  0.2712
 2  2022-11-23      1908 FIFA World Cup      Germany       Japan 88.77 71.44 0.6041 0.1740  0.2219
@@ -42,15 +51,38 @@ mysample2<-mysample
 13        0.68        1.57      0      2 1.35 1.12  0.73  1.44       0.00       2.10
 14        1.99        0.71      3      1 1.17 1.91  1.54  0.85       2.52       1.05
 15        1.51        1.08      6      1 1.34 0.98  1.42  0.70       5.78       1.05
+
 > mysample2<-filter(mysample2, spi1<80)
 > mysample2<-rename(mysample2, Index1 = spi1, Index2 = spi2)
 > mysample3<-select(mysample2, Index1, Index2, team1, team2)
 > mysample4<-summary(mysample3)
 > print(mysample4)
+
      Index1          Index2         team1              team2          
  Min.   :58.41   Min.   :72.44   Length:7           Length:7          
  1st Qu.:62.84   1st Qu.:75.92   Class :character   Class :character  
  Median :65.92   Median :79.28   Mode  :character   Mode  :character  
  Mean   :67.90   Mean   :80.73                                        
  3rd Qu.:74.73   3rd Qu.:85.71                                        
- Max.   :75.82   Max.   :90.15              
+ Max.   :75.82   Max.   :90.15     
+
+#TASK: 
+> mysample2<-mysample %>%
++ arrange(date)%>%
++ filter(spi1<80)%>%
++ rename(Index1=spi1, Index2=spi2)%>%
++ select(Index1, Index2, team1, team2)%>%
++ summary()%>%
++ print()
+
+     Index1          Index2     
+ Min.   :64.48   Min.   :51.99  
+ 1st Qu.:66.56   1st Qu.:61.06  
+ Median :68.55   Median :82.28  
+ Mean   :69.32   Mean   :75.74  
+ 3rd Qu.:71.59   3rd Qu.:87.17  
+ Max.   :77.65   Max.   :93.48  
+    team1              team2          
+ Length:10          Length:10         
+ Class :character   Class :character  
+ Mode  :character   Mode  :character 
